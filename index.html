@@ -51,7 +51,7 @@
 	      	<div class="overlay"></div>
 	        <div class="container">
 	          <div class="row d-md-flex no-gutters slider-text align-items-end justify-content-end" data-scrollax-parent="true">
-	          	<div class="one-third js-fullheight order-md-last simg" style="background-image:url(images/Screenshot.png);">
+	          	<div class="one-third js-fullheight order-md-last img" style="background-image:url(images/Screenshot.png);">
 	          		<div class="overlay"></div>
 	          	</div>
 		          <div class="one-forth d-flex  align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
@@ -70,7 +70,7 @@
 	      	<div class="overlay"></div>
 	        <div class="container">
 	          <div class="row d-flex no-gutters slider-text align-items-end justify-content-end" data-scrollax-parent="true">
-	          	<div class="one-third js-fullheight order-md-last simg" style="background-image:url(images/Screenshot.png);">
+	          	<div class="one-third img d-flex align-self-stretch align-items-center" style="background-image:url(images/Screenshot.png);">
 	          		<div class="overlay"></div>
 	          	</div>
 		          <div class="one-forth d-flex align-items-center ftco-animate" data-scrollax=" properties: { translateY: '70%' }">
@@ -249,7 +249,7 @@
         </div>
     		<div class="row">
     			<div class="col-md-6">
-    				<div class="project img ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/Screenshot2.png);">
+    				<div class="project img  ftco-animate d-flex justify-content-center align-items-center" style="background-image: url(images/Screenshot2.png);">
     					<div class="overlay"></div>
 	    				<div class="text text-center p-4">
 	    					<h3><a href="https://xbeat-rho.vercel.app">E-Commerce</a></h3>
@@ -376,23 +376,31 @@
 
         <div class="row no-gutters block-9">
           <div class="col-md-6 order-md-last d-flex">
-            <form action="#" class="bg-light p-4 p-md-5 contact-form">
+            <form action="#contact-section" class="bg-light p-4 p-md-5 contact-form" id="form">
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Your Name">
+                <input type="text" class="form-control" placeholder="Your Name" id="name">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Your Email">
+                <input type="text" class="form-control" placeholder="Your Email" id="email">
               </div>
               <div class="form-group">
-                <input type="text" class="form-control" placeholder="Subject">
+                <input type="text" class="form-control" placeholder="Subject" id="subject">
               </div>
               <div class="form-group">
-                <textarea name="" id="" cols="30" rows="7" class="form-control" placeholder="Message"></textarea>
+                <textarea name="" id="message" cols="30" rows="7" class="form-control" placeholder="Message" ></textarea>
               </div>
               <div class="form-group">
                 <input type="submit" value="Send Message" class="btn btn-primary py-3 px-5">
               </div>
+			  <div class="form-group">
+				<div id="message-warning">            	
+				</div>            
+				  <div id="message-success">
+				   <i class="fa fa-check"></i>Your message was sent, thank you!<br>
+				  </div>
+			  </div>
             </form>
+			
           
           </div>
 
@@ -466,6 +474,130 @@
   <script src="js/scrollax.min.js"></script>
   
   <script src="js/main.js"></script>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+
+    $("form").submit(function (event) {
+
+	  var contactName = document.getElementById('name');
+	  var contactEmail = document.getElementById('email');
+	  var contactMessage = document.getElementById('message');
+	  var contactSubject = document.getElementById('subject');
+  
+	  // Perform validation
+	  var isValid = true;
+  
+	  if (contactName.value.trim() === '') {
+		isValid = false;
+		displayErrorMessage('Please enter your name.');
+	  }
+  
+	  if (contactEmail.value.trim() === '') {
+		isValid = false;
+		displayErrorMessage('Please enter your email address.');
+	  } else if (!isValidEmail(contactEmail.value.trim())) {
+		isValid = false;
+		displayErrorMessage('Please enter a valid email address.');
+	  }
+  
+	  if (contactMessage.value.trim() === '') {
+		isValid = false;
+		displayErrorMessage('Please enter a message.');
+	  }
+  
+	  // If form is valid, display success message
+	  if (isValid) {
+		displaySuccessMessage();
+		// contactForm.reset(); // Reset the form
+		sendFormData();
+	  }
+
+  
+	// Function to display the error message
+	function displayErrorMessage(message) {
+	  var messageWarning = document.getElementById('message-warning');
+	  messageWarning.innerHTML = message;
+	  messageWarning.style.display = 'block';
+  
+	  var messageSuccess = document.getElementById('message-success');
+	  messageSuccess.style.display = 'none';
+	}
+  
+	// Function to display the success message
+	function displaySuccessMessage() {
+	  var messageSuccess = document.getElementById('message-success');
+	  messageSuccess.style.display = 'block';
+  
+	  var messageWarning = document.getElementById('message-warning');
+	  messageWarning.style.display = 'none';
+	}
+  
+	// Function to validate email address
+	function isValidEmail(email) {
+	  var emailRegex = /^\S+@\S+\.\S+$/;
+	  return emailRegex.test(email);
+	}
+  
+	// Function to send form data
+	function sendFormData() {
+	  // Retrieve the form data
+	  var contactName = document.getElementById('name').value;
+	  var contactEmail = document.getElementById('email').value;
+	  var contactMessage = document.getElementById('message').value;
+	  var contactSubject = document.getElementById('subject').value;
+	  // Make a POST request using Fetch API
+
+	  var formData = {
+		contactName: contactName,
+		contactEmail: contactEmail,
+		contactSubject: contactSubject,
+		contactMessage: contactMessage
+	  };
+	  fetch("https://merciful-maize-manta.glitch.me/", {
+		method: 'POST',
+		headers: {
+		'Content-Type': 'application/json'
+		},
+		body: JSON.stringify(formData)
+	  })
+		.then(function(response) {
+			console.log("B")
+
+			if (response) {
+			return response.text();
+		  } else {
+			console.log("C")
+
+			throw new Error('An error occurred while submitting the form.');
+		  }
+		})
+		.then(function(responseText) {
+	document.getElementById('name').value="";
+	document.getElementById('email').value="";
+	  document.getElementById('message').value="";
+	  document.getElementById('subject').value="";
+
+			displayResponseMessage(); // Display the response message
+		})
+		.catch(function(error) {
+			console.log("E")
+
+		  displayErrorMessage(error.message); // Display the error message if the request failed
+		});
+	}
+  
+	// Function to display the response message
+	function displayResponseMessage(response) {
+	  var messageSuccess = document.getElementById('message-success');
+	}
+
+    });
+  });
+</script>
+
     
   </body>
 </html>

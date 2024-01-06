@@ -9332,7 +9332,7 @@ h1, h2, h3, h4, h5,
   }
 }
 @media (max-width: 991.98px) {
-  .owl-carousel.home-slider .slider-item .slider-text .one-third {
+    .owl-carousel.home-slider .slider-item .slider-text .one-third  {
     width: 100%;
     z-index: 0;
   }
@@ -10249,6 +10249,7 @@ textarea.form-control {
     font-size: 38px;
   }
 }
+
 .heading-section.heading-section-white .subheading {
   color: rgba(255, 255, 255, 0.9) !important;
 }
@@ -10262,6 +10263,7 @@ textarea.form-control {
   border-radius: 50%;
   background-position: center center;
   height: 10%;
+  
 }
 .img,
 .blog-img,
@@ -10347,6 +10349,22 @@ textarea.form-control {
   font-size: 12px;
   text-transform: uppercase;
   letter-spacing: 0.1em;
+}
+
+#message-warning, #message-success {
+	display: none;
+  padding-left: 4rem;
+	padding: 3rem;
+	width: 100%;
+}
+#message-warning {
+	color: black;
+}
+#message-success {
+	color: black;
+}
+#message-warning i, #message-success i {
+	margin-right: 10px;
 }
 
 .block-20 {
